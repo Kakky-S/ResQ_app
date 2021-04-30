@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resq_chatbot_app/chatBot/chatBot_page.dart';
+import 'package:resq_chatbot_app/signup/signup_page.dart';
 import 'login_model.dart';
+
 
 class LoginPage extends StatelessWidget {
   @override
@@ -51,7 +54,19 @@ class LoginPage extends StatelessWidget {
                         }
                         await model.login();
                       },
-                    )
+                    ),
+                    ElevatedButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                        },
+                        child: Text('新規登録')
+                    ),
+                    ElevatedButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
+                        },
+                        child: Text('診察を始める')
+                    ),
                   ],
                 ),
               );
