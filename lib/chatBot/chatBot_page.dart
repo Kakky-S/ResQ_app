@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:resq_chatbot_app/Symptomatology/symptomatology_page.dart';
 import 'chatBot.dart';
 
 class chatBot extends StatefulWidget{
@@ -13,6 +14,11 @@ class _ChatBotState extends State<chatBot> {
 
   void setKey(_key, key) {
       chatArea.add(_key);
+
+      if(key == 'kosi'){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Symptomatology()));
+      }
+
       getData(key);
   }
 
@@ -86,7 +92,7 @@ class _ChatBotState extends State<chatBot> {
                   ElevatedButton(
                     child: Text(dataList[index].content),
                     onPressed: () => {
-                      setKey(dataList[index].nextId,dataList[index].nextId),
+                      setKey(dataList[index].question,dataList[index].nextId),
                       //getData(dataList[index].nextId),
 
                     },
