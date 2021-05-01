@@ -1,5 +1,5 @@
 class Data{
-  String key;
+  int key;
   String answer;
   String content;
   String question;

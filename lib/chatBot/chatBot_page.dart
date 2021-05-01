@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'chatBot.dart';
@@ -10,19 +9,18 @@ class chatBot extends StatefulWidget{
 
 class _ChatBotState extends State<chatBot> {
   List<Data> dataList = [];
-  List<Data> chatArea = [];
+  List<String> chatArea = [];
 
-  // void setKey() {
-  //   setState(() {
-  //     _key = 'init';
-  //   });
-  // }
+  void setKey(_key, key) {
+      chatArea.add(_key);
+      getData(key);
+  }
+
   // メモの取得
   Future<void> getData(key) async{
-    // dataList.add(Data(
+    // chatArea.add(Data(
     //   content: '今日は、どうしましたか'
     // ));
-    // todo 'test'のところにボタンをプッシュした際にnextIdが入るようにする
     var snapshot = await FirebaseFirestore.instance.collection('testdata').doc(key).get();
     var docs = snapshot.data()['answer'];
 
@@ -35,7 +33,8 @@ class _ChatBotState extends State<chatBot> {
       dataList.add(Data(
         // content: docs['content'], //answer[0]['content'],
         content: docs['content'],
-        nextId: docs['nextId']  //answer[0]['nextId'],
+        nextId: docs['nextId'],
+        question: docs['nextQuestion'],
       ));
       // chatArea.add(Data(
       //   // content: docs['content'], //answer[0]['content'],
@@ -49,6 +48,10 @@ class _ChatBotState extends State<chatBot> {
   void initState(){
     super.initState();
     getData('test');
+  }
+
+  void chat(){
+
   }
 
   @override
@@ -69,10 +72,11 @@ class _ChatBotState extends State<chatBot> {
               (context, index){
                 return
                   ListTile(
-                    title: Text(dataList[index].content),
+
+                    title: Text(chatArea[index]),
                    );
               },
-                childCount: dataList.length,
+                childCount: chatArea.length,
           ),
           ),
           SliverList(
@@ -80,11 +84,12 @@ class _ChatBotState extends State<chatBot> {
                   (context, index){
                 return
                   ElevatedButton(
-
+                    child: Text(dataList[index].content),
                     onPressed: () => {
-                      getData(dataList[index].nextId)
+                      setKey(dataList[index].nextId,dataList[index].nextId),
+                      //getData(dataList[index].nextId),
+
                     },
-                    child: Text(dataList[index].nextId),
                   );
               },
               childCount: dataList.length,
