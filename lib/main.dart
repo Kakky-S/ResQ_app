@@ -25,3 +25,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+// todo チャットエリアの文章が増える
+// todo 症状ページに飛ぶようにif文を書く　
+// todo 症状ページの作成
+// todo キーと症状ページの連携
+// todo お気に入り追加機能を実装
+// todo 細かい修正
+

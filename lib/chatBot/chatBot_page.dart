@@ -10,18 +10,37 @@ class chatBot extends StatefulWidget{
 
 class _ChatBotState extends State<chatBot> {
   List<Data> dataList = [];
+  List<Data> chatArea = [];
 
+  // void setKey() {
+  //   setState(() {
+  //     _key = 'init';
+  //   });
+  // }
   // メモの取得
-  Future<void> getData() async{
-    var snapshot = await FirebaseFirestore.instance.collection('testdata').get();
-    var docs = snapshot.docs;
+  Future<void> getData(key) async{
+    // dataList.add(Data(
+    //   content: '今日は、どうしましたか'
+    // ));
+    // todo 'test'のところにボタンをプッシュした際にnextIdが入るようにする
+    var snapshot = await FirebaseFirestore.instance.collection('testdata').doc(key).get();
+    var docs = snapshot.data()['answer'];
+
+    if(dataList.length >= 0){
+      dataList.clear();
+    }
 
     docs.forEach((docs) {
-      var answer = docs.data()['answer'];
+      //var answer = docs.data()['answer'];
       dataList.add(Data(
-        content: answer[0]['content'],
-        nextId: answer[0]['nextId'],
+        // content: docs['content'], //answer[0]['content'],
+        content: docs['content'],
+        nextId: docs['nextId']  //answer[0]['nextId'],
       ));
+      // chatArea.add(Data(
+      //   // content: docs['content'], //answer[0]['content'],
+      //     nextId: docs['nextId']  //answer[0]['nextId'],
+      // ));
     });
     setState(() {});
   }
@@ -29,7 +48,7 @@ class _ChatBotState extends State<chatBot> {
   @override
   void initState(){
     super.initState();
-    getData();
+    getData('test');
   }
 
   @override
@@ -43,14 +62,51 @@ class _ChatBotState extends State<chatBot> {
       //     child: Text('Drawer'),
       //   ),
       // ),
-      body: ListView.builder(
-        itemCount: dataList.length,
-        itemBuilder: (context,index){
-          return ListTile(
-            title: Text(dataList[index].content),
-          );
-        },
-      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+              (context, index){
+                return
+                  ListTile(
+                    title: Text(dataList[index].content),
+                   );
+              },
+                childCount: dataList.length,
+          ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index){
+                return
+                  ElevatedButton(
+
+                    onPressed: () => {
+                      getData(dataList[index].nextId)
+                    },
+                    child: Text(dataList[index].nextId),
+                  );
+              },
+              childCount: dataList.length,
+            ),
+          ),
+        ],
+      )
+      // ListView.builder(
+      //         itemCount: dataList.length,
+      //         itemBuilder: (context,index){
+      //           return
+      //           //   ListTile(
+      //           //   title: Text(dataList[index].content),
+      //           // );
+      //           ElevatedButton(
+      //               onPressed: () => {
+      //                 getData(dataList[index].nextId)
+      //               },
+      //               child: Text(dataList[index].nextId),
+      //           );
+      //         },
+      //       ),
     );
   }
 }
