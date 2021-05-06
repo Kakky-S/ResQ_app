@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_chatbot_app/chatBot/chatBot_page.dart';
+import 'package:resq_chatbot_app/favorite/favorite_page.dart';
 import 'package:resq_chatbot_app/signup/signup_page.dart';
 import 'login_model.dart';
 
@@ -100,6 +101,12 @@ class LoginPage extends StatelessWidget {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
                             },
                             child: Text('診察を始める')
+                        ),
+                        ElevatedButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite()));
+                            },
+                            child: Text('お気に入り')
                         ),
                       ],
                     ),

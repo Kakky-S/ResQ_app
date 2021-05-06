@@ -76,9 +76,9 @@ class _Symptom extends State<Symptom> {
  // お気に入りに追加する処理
  Future<void> addSymptom() async{
      var snapshots = await FirebaseFirestore.instance.collection('symptom').doc(widget.paramText).get();
-     var title = snapshots.data()['test2'];
+     var title = snapshots.data()['test'];
      var collection =FirebaseFirestore.instance.collection('mylist');
-     collection.add({
+     await collection.add({
         'title': title,
         'key': widget.paramText,
         'created_date': Timestamp.now()
