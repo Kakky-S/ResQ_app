@@ -12,6 +12,9 @@ class Symptom extends StatefulWidget{
 
 class _Symptom extends State<Symptom> {
  List<SymptomData> symptomList = [];
+ List<SymptomData> setlist =[];
+ List<SymptomData> textList = [];
+ List<SymptomData> multipleList = [];
 
    // final String paramText;
    // Symptomatology({Key key, @required this.paramText}) : super(key: key);
@@ -20,8 +23,14 @@ class _Symptom extends State<Symptom> {
   // Symptomatology(this.data);
 
    Future<void> page() async{
-     var snapshot = await FirebaseFirestore.instance.collection('symptom').doc(widget.paramText).get();
-     var docs = snapshot.data()['kosi'];
+     var snapshots = await FirebaseFirestore.instance.collection('symptom').doc(widget.paramText).get();
+     //var data = snapshots.data()['array'];
+      var data = snapshots.data()['test3']['ssss'];
+     //var list = data['test3']['ssss'];
+     // var list = data['test3'];
+     var title = snapshots.data()['test2'];
+     var multiple = snapshots.data()['test4'];
+
      // docs.forEach((docs) {
      //   //var answer = docs.data()['answer'];
      //   dataList.add(Data(
@@ -30,21 +39,50 @@ class _Symptom extends State<Symptom> {
      //     nextId: docs['nextId'],
      //     question: docs['nextQuestion'],
      //   ));
-     //symptomatologyList.add(docs);
 
-     docs.forEach((doc){
-       symptomList.add(SymptomData(
-         title:  doc['test2']//doc.data()['test']
+     // タイトルを取得
+     title.forEach((docs){
+       setlist.add(SymptomData(
+         title:  docs['test'],//doc.data()['test']
+         //title: doc['test']
        ));
      });
+     // リストを取得
+     data.forEach((doc){
+       symptomList.add(SymptomData(
+         list: doc,//doc.data()['test']
+       ));
+     });
+
+     // 複数行を取得
+     multiple.forEach((doc){
+       multipleList.add(SymptomData(
+         multiple: doc,//doc.data()['test']
+       ));
+     });
+
+     //textList = [...setlist, ...symptomList];
+     //new List.from(setlist)..addAll(symptomList);
      setState(() {});
-     print(symptomList);
+     print(setlist[0]);
    }
 
  @override
  void initState(){
    super.initState();
    page();
+ }
+
+ // お気に入りに追加する処理
+ Future<void> addSymptom() async{
+     var snapshots = await FirebaseFirestore.instance.collection('symptom').doc(widget.paramText).get();
+     var title = snapshots.data()['test2'];
+     var collection =FirebaseFirestore.instance.collection('mylist');
+     collection.add({
+        'title': title,
+        'key': widget.paramText,
+        'created_date': Timestamp.now()
+     });
  }
 
 
@@ -54,14 +92,66 @@ class _Symptom extends State<Symptom> {
         appBar: AppBar(
         title: Text(widget.paramText),
     ),
-     body: ListView.builder(
-      itemCount: symptomList.length,
-      itemBuilder: (context,index) {
-        return ListTile(
-          title: Text(symptomList[index].title),
-        );
-      }
-    )
+     body: CustomScrollView(
+         slivers: [
+         SliverList(
+         delegate: SliverChildBuilderDelegate(
+         (context, index){
+    return
+    ListTile(
+    title: Text(setlist[index].title),
+    );
+    },
+      childCount: setlist.length,
+    ),
+    ),
+           SliverList(
+             delegate: SliverChildBuilderDelegate(
+                   (context, index){
+                 return
+                   ListTile(
+
+                     title: Text(symptomList[index].list),
+                   );
+               },
+               childCount: symptomList.length,
+             ),
+           ),
+
+           SliverList(
+             delegate: SliverChildBuilderDelegate(
+                   (context, index){
+                 return
+                   ListTile(
+
+                     title: Text(multipleList[index].multiple),
+                   );
+               },
+               childCount: multipleList.length,
+             ),
+           ),
+    ]
+    ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+            addSymptom();
+        },
+        tooltip: 'Increment',
+        child: Icon(Icons.favorite),
+      ),
+    //  ListView.builder(
+    //   itemCount: symptomList.length,
+    //   itemBuilder: (context,index) {
+    //     return Column(
+    //        children: [
+    //          Text('こんにちは'),
+    //          //Text(textList[index].title),
+    //          //Text(textList[index].text)
+    //          Text(symptomList[index].text)
+    //        ],
+    //     );
+    //   }
+    // ),
     );
   }
 }

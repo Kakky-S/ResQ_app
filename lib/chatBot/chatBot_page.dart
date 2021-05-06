@@ -15,14 +15,26 @@ class _ChatBotState extends State<chatBot> {
   void setKey(_key, key) {
       chatArea.add(_key);
       // 症状ページに遷移
-      if(key == 'kosi'){
-        chatArea.clear();
-        // 症状ページに遷移する際に値を受け渡し
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Symptom(paramText: key)));
 
+      switch(key){
+        case 'kosi':
+          chatArea.clear();
+          // 症状ページに遷移する際に値を受け渡し
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Symptom(paramText: key)));
+          break;
+
+          default:
+          getData(key);
+          break;
       }
-      // データ取得の関数
-      getData(key);
+
+      // if(key == 'kosi'){
+      //   chatArea.clear();
+      //   // 症状ページに遷移する際に値を受け渡し
+      //   Navigator.push(context, MaterialPageRoute(builder: (context) => Symptom(paramText: key)));
+      // }
+      // // データ取得の関数
+      // getData(key);
   }
 
   // メモの取得

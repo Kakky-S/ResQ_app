@@ -1,5 +1,6 @@
 class SymptomData{
   String title;
-  String text;
-  SymptomData({this.title, this.text});
+  String list;
+  String multiple;
+  SymptomData({this.title, this.list, this.multiple});
 }
