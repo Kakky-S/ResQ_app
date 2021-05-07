@@ -13,11 +13,12 @@ class _ChatBotState extends State<chatBot> {
   List<String> chatArea = [];
 
   void setKey(_key, key) {
-      chatArea.add(_key);
+      
+    chatArea.add(_key);
       // 症状ページに遷移
-
       switch(key){
         case 'kosi':
+          addSymptom();
           chatArea.clear();
           // 症状ページに遷移する際に値を受け渡し
           Navigator.push(context, MaterialPageRoute(builder: (context) => Symptom(paramText: key)));
@@ -35,6 +36,14 @@ class _ChatBotState extends State<chatBot> {
       // }
       // // データ取得の関数
       // getData(key);
+  }
+  // お気に入りに追加する処理
+  Future<void> addSymptom() async {
+    var collection = FirebaseFirestore.instance.collection('test');
+    await collection.add({
+      'created_date': Timestamp.now(),
+      'text': chatArea
+    });
   }
 
   // メモの取得
@@ -64,8 +73,6 @@ class _ChatBotState extends State<chatBot> {
     });
     setState(() {});
   }
-
-
 
   @override
   void initState(){
@@ -138,5 +145,5 @@ class _ChatBotState extends State<chatBot> {
     );
   }
 }
-
+  
 
