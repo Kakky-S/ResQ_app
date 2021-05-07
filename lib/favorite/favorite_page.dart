@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:resq_chatbot_app/Symptomatology/symptomatology_page.dart';
 import 'package:resq_chatbot_app/favorite/favorite.dart';
+import 'package:resq_chatbot_app/favoriteSymptom/favoriteSymptom_page.dart';
 
 class Favorite extends StatefulWidget{
   Favorite({Key key}) : super(key: key);
@@ -35,6 +35,12 @@ class _Favorite extends State<Favorite> {
     page();
   }
 
+  // 削除機能
+  Future<void> deleteFavorite(String docId) async{
+    var document = FirebaseFirestore.instance.collection('mylist').doc(docId);
+    document.delete();
+  }
+
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -46,8 +52,34 @@ class _Favorite extends State<Favorite> {
          itemBuilder: (context, index){
            return ListTile(
              title: Text(favoriteList[index].title),
+             trailing: IconButton(
+               icon: Icon(Icons.delete),
+               onPressed: () async {
+                 var result = await showDialog<int>(
+                   context: context,
+                   barrierDismissible: false,
+                   builder: (BuildContext context){
+                     return AlertDialog(
+                       title: Text('本当に削除しますか？'),
+                       content: Text('確認のダイアログです。'),
+                       actions: [
+                         TextButton(
+                             child: Text('OK'),
+                             onPressed: () => Navigator.of(context).pop(0)
+                         ),
+                         TextButton(
+                             child: Text('Cancel'),
+                             onPressed: () => Navigator.of(context).pop(0)
+                         )
+                       ],
+                     );
+                   }
+                 );
+                 //deleteFavorite(favoriteList[index].id);
+               },
+             ),
              onTap: (){
-               Navigator.push(context, MaterialPageRoute(builder: (context) => Symptom(paramText: favoriteList[index].key)));
+               Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteSymptom(paramText: favoriteList[index].key)));
              },
            );
          }
