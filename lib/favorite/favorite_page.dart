@@ -60,7 +60,10 @@ class _Favorite extends State<Favorite> {
                  return ListTile(
                    title: Text(snapshot.data.docs[index].data()['title']),
                    trailing: IconButton(
-                     icon: Icon(Icons.delete),
+                     icon: Icon(
+                         Icons.delete,
+                       color: Colors.grey,
+                     ),
                      onPressed: () async {
                        var result = await showDialog<int>(
                            context: context,

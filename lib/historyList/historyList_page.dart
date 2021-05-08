@@ -41,7 +41,16 @@ class _HistoryList extends State<HistoryList> {
             return ListView.builder(
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index){
-                  return ListTile(
+                  return  Padding(
+                    padding: const EdgeInsets.only(top: 20, right: 20, left: 20 ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                      border: Border(
+                      top: BorderSide(color: Colors.grey),
+                      bottom: BorderSide(color: Colors.grey)
+                  )
+                  ),
+                    child: ListTile(
                     title: Text(snapshot.data.docs[index].data()['title']),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
@@ -75,6 +84,8 @@ class _HistoryList extends State<HistoryList> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => History(paramText: snapshot.data.docs[index].id)));
                     },
+                  ),
+                  ),
                   );
                 }
             );

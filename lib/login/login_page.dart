@@ -16,36 +16,15 @@ class LoginPage extends StatelessWidget {
     return ChangeNotifierProvider<LoginModel>(
       create: (_) => LoginModel(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('ResQ'),
-        ),
         body: Consumer<LoginModel>(
             builder: (context, model, child){
-              return Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.lightBlueAccent.withOpacity(0.1),
-                        spreadRadius: 1.0,
-                        blurRadius: 10.0,
-                        offset: Offset(10, 10),
-                      ),
-                    ],
-                    /* ここまでを追加しました */
-                  ),
-                  //color: Colors.black12.withOpacity(0.1),
-                  width: 400,
-
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+              return Padding(
+                    padding: const EdgeInsets.only(top: 120, right: 20, left: 20 ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset('images/logo_sub.png'),
-                        Padding(
-                          padding: const EdgeInsets.only(top:50.0),
-                          child: TextField(
+                        Image.asset('images/logo_main.png' ),
+                       TextField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'メールアドレス',
@@ -55,9 +34,8 @@ class LoginPage extends StatelessWidget {
                               model.mail = text;
                             },
                           ),
-                        ),
                         Padding(
-                          padding: const EdgeInsets.only(top:30.0,bottom:30.0),
+                          padding: const EdgeInsets.only(top:25.0,bottom:30.0),
                           child: TextField(
                             decoration: const InputDecoration(
                                 //hintText: 'password',
@@ -72,15 +50,21 @@ class LoginPage extends StatelessWidget {
                             },
                           ),
                         ),
-                        ElevatedButton(
+                      Padding(
+                        padding: const EdgeInsets.only(bottom:10.0),
+                        child: ElevatedButton(
                           child: Text('診察をはじめる'),
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.orange,
-                              onPrimary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                            primary: Colors.orange,
+                            onPrimary: Colors.white,
+                            minimumSize: Size(300, 50),
+                            textStyle: TextStyle(
+                                fontSize: 18
                             ),
-                              ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
                           onPressed: () async{
                             try {
                               await model.login();
@@ -92,11 +76,27 @@ class LoginPage extends StatelessWidget {
                             await model.login();
                           },
                         ),
-                        ElevatedButton(
+                      ),
+                        OutlinedButton(
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                             },
-                            child: Text('新規登録')
+                            child: Text('アカウントを作成する'),
+
+                          style: OutlinedButton.styleFrom(
+                            primary: Colors.orange,
+                            backgroundColor: Colors.white,
+                            side: const BorderSide(
+                                color: Colors.orange
+                            ),
+                            minimumSize: Size(300, 50),
+                            textStyle: TextStyle(
+                                fontSize: 18
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
                         ),
                         ElevatedButton(
                             onPressed: (){
@@ -107,8 +107,6 @@ class LoginPage extends StatelessWidget {
 
                       ],
                     ),
-                  ),
-                ),
               );
             }
         ),

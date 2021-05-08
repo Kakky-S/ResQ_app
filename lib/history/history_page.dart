@@ -46,10 +46,49 @@ class _History extends State<History> {
               delegate: SliverChildBuilderDelegate(
                     (context, index){
                   return
-                    ListTile(
-
+                  Padding(
+                      padding: const EdgeInsets.only(top: 20, right: 20, left: 20 ),
+                  child: Container(
+                    child: (index % 2 == 0) ?
+                    Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: Colors.grey)
+                          )
+                        ),
+                    child: ListTile(
+                      leading: Text(
+                          'Q.',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontSize: 20,
+                        ),
+                      ),
                       title: Text(historyList[index].history),
-                    );
+
+                    )
+                      )
+                    :
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.grey)
+                          )
+                      ),
+                      child:
+                    ListTile(
+                      leading: Text(
+                        'A.',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                        ),
+                      ),
+                      title: Text(historyList[index].history),
+                    )
+                    )
+                      ),
+                      );
                 },
                 childCount: historyList.length,
               ),

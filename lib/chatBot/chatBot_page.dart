@@ -96,21 +96,44 @@ class _ChatBotState extends State<chatBot> {
         title: Text('chatbot'),
       ),
       endDrawer: Drawer(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 100, right: 20, left: 20 ),
           child: ListView(
             children: [
+             Padding(
+               padding: const EdgeInsets.only(bottom: 50,),
+               child:  ListTile(
+                 leading: Icon(
+                   Icons.chat,
+                   color: Colors.blue,
+                 ),
+                 title: Text(
+                     'HOME',
+                 style: TextStyle(
+                   fontSize: 30,
+                 ),
+                   ),
+
+                 onTap: (){
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
+                 },
+               ),
+             ),
               ListTile(
-                title: Text('HOME'),
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
-                },
-              ),
-              ListTile(
+                leading: Icon(
+                  Icons.favorite,
+                  color: Colors.pinkAccent,
+                ),
                 title: Text('お気に入り'),
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite()));
                 },
               ),
               ListTile(
+                leading: Icon(
+                  Icons.create,
+                  color: Colors.green,
+                ),
                 title: Text('診察履歴'),
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryList()));
@@ -118,21 +141,41 @@ class _ChatBotState extends State<chatBot> {
               ),
             ],
           ),
+        ),
       ),
-      body: CustomScrollView(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+        child: CustomScrollView(
         slivers: [
           SliverList(
               delegate: SliverChildBuilderDelegate(
               (context, index){
-                return
-                  ListTile(
-
+                return Container(
+                  child: (index % 2 == 0) ?
+                  Padding(
+                      padding: const EdgeInsets.only(bottom: 10 ),
+                  child: ListTile(
+                    leading: Image.asset('images/logo_main.png', width: 30,),
                     title: Text(chatArea[index]),
-                   );
+                   )
+                )
+                  :
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10 ),
+                    child: ListTile(
+                    trailing: Icon(
+                      Icons.chat,
+                      color: Colors.pinkAccent,
+                    ),
+                    title: Text(chatArea[index]),
+                  ),
+                )
+                );
               },
                 childCount: chatArea.length,
           ),
           ),
+
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (context, index){
@@ -149,6 +192,7 @@ class _ChatBotState extends State<chatBot> {
             ),
           ),
         ],
+      ),
       )
       // ListView.builder(
       //         itemCount: dataList.length,
