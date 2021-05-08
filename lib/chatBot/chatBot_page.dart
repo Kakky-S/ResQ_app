@@ -144,7 +144,7 @@ class _ChatBotState extends State<chatBot> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+        padding: const EdgeInsets.only(top: 40, right: 20, left: 20),
         child: CustomScrollView(
         slivers: [
           SliverList(
@@ -153,22 +153,56 @@ class _ChatBotState extends State<chatBot> {
                 return Container(
                   child: (index % 2 == 0) ?
                   Padding(
-                      padding: const EdgeInsets.only(bottom: 10 ),
-                  child: ListTile(
-                    leading: Image.asset('images/logo_main.png', width: 30,),
-                    title: Text(chatArea[index]),
-                   )
+                      padding: const EdgeInsets.only(bottom: 25 ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Image.asset('images/logo_main.png', width: 50),
+                      ),
+                      Padding(padding: const EdgeInsets.only(left: 10 )),
+                      Container(
+                        child: Text(
+                            chatArea[index],
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                  // ListTile(
+                  //   leading: Image.asset('images/logo_main.png', width: 30),
+                  //   title: Text(chatArea[index]),
+                  //  )
                 )
                   :
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 10 ),
-                    child: ListTile(
-                    trailing: Icon(
-                      Icons.chat,
-                      color: Colors.pinkAccent,
-                    ),
-                    title: Text(chatArea[index]),
-                  ),
+                    padding: const EdgeInsets.only(bottom: 25 ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            child: Text(
+                                chatArea[index],
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          Padding(padding: const EdgeInsets.only(right: 10 )),
+                          Container(
+                            child: Image.asset('images/logo_main.png', width: 30),
+                          ),
+                        ],
+                      )
+                  //   child: ListTile(
+                  //   trailing: Icon(
+                  //     Icons.chat,
+                  //     color: Colors.pinkAccent,
+                  //   ),
+                  //   title: Text(chatArea[index]),
+                  // ),
                 )
                 );
               },
