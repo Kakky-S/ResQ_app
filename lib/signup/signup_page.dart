@@ -12,26 +12,42 @@ class SignUpPage extends StatelessWidget {
       create: (_) => SignUpModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('サインアップ'),
+
         ),
         body: Consumer<SignUpModel>(
           builder: (context, model, child){
             return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 90.0, right: 20, left: 20),
               child: Column(
                 children: [
-                  TextField(
+                  Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0),
+                    child: Text(
+                        '新規アカウントを作成',
+                         style: TextStyle(
+                           fontSize: 25,
+                         )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 40.0),
+                  child: TextField(
                     decoration: InputDecoration(
-                      hintText: 'e-mail'
+                      border: OutlineInputBorder(),
+                      labelText: 'メールアドレス',
                     ),
                     controller: mailController,
                     onChanged: (text){
                       model.mail = text;
                     },
                   ),
-                  TextField(
+                  ),
+                  Padding(
+                  padding: const EdgeInsets.only(bottom: 60.0),
+                  child: TextField(
                     decoration: InputDecoration(
-                        hintText: 'password'
+                      border: OutlineInputBorder(),
+                      labelText: 'パスワード',
                     ),
                     // 文字を隠す
                     obscureText: true,
@@ -40,8 +56,20 @@ class SignUpPage extends StatelessWidget {
                       model.password = text;
                     },
                   ),
+                  ),
                   ElevatedButton(
                     child: Text('登録する'),
+                    style: ElevatedButton.styleFrom(
+                    primary: Colors.orange,
+                    onPrimary: Colors.white,
+                    minimumSize: Size(300, 50),
+                    textStyle: TextStyle(
+                      fontSize: 18
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
                       onPressed: () async{
                       try {
                         await model.signUp();

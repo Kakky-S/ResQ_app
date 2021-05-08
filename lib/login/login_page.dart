@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_chatbot_app/chatBot/chatBot_page.dart';
 import 'package:resq_chatbot_app/favorite/favorite_page.dart';
+import 'package:resq_chatbot_app/historyList/historyList_page.dart';
 import 'package:resq_chatbot_app/signup/signup_page.dart';
 import 'login_model.dart';
 
@@ -16,7 +17,7 @@ class LoginPage extends StatelessWidget {
       create: (_) => LoginModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('ログイン'),
+          title: Text('ResQ'),
         ),
         body: Consumer<LoginModel>(
             builder: (context, model, child){
@@ -41,13 +42,13 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        Image.asset('images/logo_sub.png'),
                         Padding(
                           padding: const EdgeInsets.only(top:50.0),
                           child: TextField(
                             decoration: InputDecoration(
-                                //hintText: 'e-mail',
                               border: OutlineInputBorder(),
-                              labelText: 'e-mail',
+                              labelText: 'メールアドレス',
                             ),
                             controller: mailController,
                             onChanged: (text){
@@ -61,7 +62,7 @@ class LoginPage extends StatelessWidget {
                             decoration: const InputDecoration(
                                 //hintText: 'password',
                                 border: OutlineInputBorder(),
-                                labelText: 'password',
+                                labelText: 'パスワード',
                             ),
                             // 文字を隠す
                             obscureText: true,
@@ -72,7 +73,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         ElevatedButton(
-                          child: Text('ログインする'),
+                          child: Text('診察をはじめる'),
                           style: ElevatedButton.styleFrom(
                               primary: Colors.orange,
                               onPrimary: Colors.white,
@@ -84,6 +85,7 @@ class LoginPage extends StatelessWidget {
                             try {
                               await model.login();
                               _showDialog(context, 'ログインしました');
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
                             } catch(e){
                               _showDialog(context, e.toString());
                             }
@@ -102,12 +104,7 @@ class LoginPage extends StatelessWidget {
                             },
                             child: Text('診察を始める')
                         ),
-                        ElevatedButton(
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite()));
-                            },
-                            child: Text('お気に入り')
-                        ),
+
                       ],
                     ),
                   ),

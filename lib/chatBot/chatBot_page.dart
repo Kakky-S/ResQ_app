@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:resq_chatbot_app/Symptomatology/symptomatology_page.dart';
+import 'package:resq_chatbot_app/favorite/favorite_page.dart';
+import 'package:resq_chatbot_app/historyList/historyList_page.dart';
+import 'package:resq_chatbot_app/navigation/navigation.dart';
 import 'chatBot.dart';
 
 class chatBot extends StatefulWidget{
@@ -10,15 +13,16 @@ class chatBot extends StatefulWidget{
 
 class _ChatBotState extends State<chatBot> {
   List<Data> dataList = [];
-  List<String> chatArea = [];
+  List<String> chatArea = ['今日は、どうしましたか'];
+
 
   void setKey(_key, key) {
       
     chatArea.add(_key);
       // 症状ページに遷移
-      switch(key){
+      switch(key) {
         case 'kosi':
-          addSymptom();
+          addSymptom(key);
           chatArea.clear();
           // 症状ページに遷移する際に値を受け渡し
           Navigator.push(context, MaterialPageRoute(builder: (context) => Symptom(paramText: key)));
@@ -37,20 +41,21 @@ class _ChatBotState extends State<chatBot> {
       // // データ取得の関数
       // getData(key);
   }
+
   // お気に入りに追加する処理
-  Future<void> addSymptom() async {
+  Future<void> addSymptom(key) async {
     var collection = FirebaseFirestore.instance.collection('test');
     await collection.add({
       'created_date': Timestamp.now(),
-      'text': chatArea
+      'text': chatArea,
+      'title': key
     });
   }
 
+
   // メモの取得
   Future<void> getData(key) async{
-    // chatArea.add(Data(
-    //   content: '今日は、どうしましたか'
-    // ));
+
     var snapshot = await FirebaseFirestore.instance.collection('testdata').doc(key).get();
     var docs = snapshot.data()['answer'];
 
@@ -90,11 +95,30 @@ class _ChatBotState extends State<chatBot> {
       appBar: AppBar(
         title: Text('chatbot'),
       ),
-      // endDrawer: Drawer(
-      //   child: Center(
-      //     child: Text('Drawer'),
-      //   ),
-      // ),
+      endDrawer: Drawer(
+          child: ListView(
+            children: [
+              ListTile(
+                title: Text('HOME'),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
+                },
+              ),
+              ListTile(
+                title: Text('お気に入り'),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite()));
+                },
+              ),
+              ListTile(
+                title: Text('診察履歴'),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryList()));
+                },
+              ),
+            ],
+          ),
+      ),
       body: CustomScrollView(
         slivers: [
           SliverList(
@@ -118,7 +142,6 @@ class _ChatBotState extends State<chatBot> {
                     onPressed: () => {
                       setKey(dataList[index].question,dataList[index].nextId),
                       //getData(dataList[index].nextId),
-
                     },
                   );
               },
