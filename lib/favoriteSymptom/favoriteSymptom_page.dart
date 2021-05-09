@@ -60,27 +60,52 @@ class _FavoriteSymptom extends State<FavoriteSymptom> {
       appBar: AppBar(
         title: Text(widget.paramText),
       ),
-      body: CustomScrollView(
+      body:
+
+      CustomScrollView(
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
                     (context, index){
                   return
-                    ListTile(
-                      title: Text(setlist[index].title),
+                    Container(
+                      child: Column(
+                        children: [
+                          Text('最も疑わしい症状'),
+                          Text(setlist[index].title)
+                        ],
+                      ),
                     );
                 },
-                childCount: setlist.length,
+                childCount: 1,
               ),
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                     (context, index){
                   return
-                    ListTile(
-
-                      title: Text(symptomList[index].list),
-                    );
+                  Container(
+                    child: Row(
+                      children: [
+                        Text('行くべきところ'),
+                      ],
+                    ),
+                  );
+                },
+                childCount: 1,
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (context, index){
+                  return
+                  Container(
+                    child: Row(
+                      children: [
+                        Text(symptomList[index].list),
+                      ],
+                    ),
+                  );
                 },
                 childCount: symptomList.length,
               ),
