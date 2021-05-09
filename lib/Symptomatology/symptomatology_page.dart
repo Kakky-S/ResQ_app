@@ -4,6 +4,7 @@ import 'package:resq_chatbot_app/Symptomatology/symptomatology.dart';
 
 class Symptom extends StatefulWidget{
   final String paramText;
+
   Symptom({Key key, this.paramText}) : super(key: key);
 
   @override
@@ -15,6 +16,7 @@ class _Symptom extends State<Symptom> {
  List<SymptomData> setlist =[];
  List<SymptomData> textList = [];
  List<SymptomData> multipleList = [];
+ var bool = false;
 
    // final String paramText;
    // Symptomatology({Key key, @required this.paramText}) : super(key: key);
@@ -85,6 +87,12 @@ class _Symptom extends State<Symptom> {
      });
  }
 
+ // 削除機能
+ Future<void> deleteFavorite(String docId) async{
+   var document = FirebaseFirestore.instance.collection('test').doc(docId);
+   document.delete();
+ }
+
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +141,29 @@ class _Symptom extends State<Symptom> {
     ]
     ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-            addSymptom();
+        onPressed: () async{
+
+          print(bool);
+          (bool != true) ?
+          {
+            addSymptom(),
+            bool = true
+          }
+              :
+          bool = false;
+          setState(() {});
         },
         tooltip: 'Increment',
-        child: Icon(Icons.favorite),
+        child: (bool != false) ?
+        Icon(
+            Icons.favorite,
+          color: Colors.white,
+        )
+        :
+        Icon(
+            Icons.favorite,
+          color: Colors.pinkAccent,
+        )
       ),
     //  ListView.builder(
     //   itemCount: symptomList.length,

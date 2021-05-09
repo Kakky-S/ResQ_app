@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resq_chatbot_app/color/color.dart';
 import 'package:resq_chatbot_app/signup/signup_model.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -57,17 +58,20 @@ class SignUpPage extends StatelessWidget {
                     },
                   ),
                   ),
-                  ElevatedButton(
+                  OutlinedButton(
                     child: Text('登録する'),
-                    style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                    onPrimary: Colors.white,
-                    minimumSize: Size(300, 50),
-                    textStyle: TextStyle(
-                      fontSize: 18
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                    style: OutlinedButton.styleFrom(
+                      primary: HexColor('555555'),
+                      backgroundColor: HexColor('FFFFFF'),
+                      side: const BorderSide(
+                          color: Colors.orange
+                      ),
+                      minimumSize: Size(300, 50),
+                      textStyle: TextStyle(
+                          fontSize: 18
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
                       onPressed: () async{

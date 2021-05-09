@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:resq_chatbot_app/Symptomatology/symptomatology_page.dart';
+import 'package:resq_chatbot_app/color/color.dart';
 import 'package:resq_chatbot_app/favorite/favorite_page.dart';
 import 'package:resq_chatbot_app/historyList/historyList_page.dart';
 import 'package:resq_chatbot_app/navigation/navigation.dart';
@@ -105,12 +106,12 @@ class _ChatBotState extends State<chatBot> {
                child:  ListTile(
                  leading: Icon(
                    Icons.chat,
-                   color: Colors.blue,
+                   color: HexColor('FBC52C'),
                  ),
                  title: Text(
-                     'HOME',
+                     '診察',
                  style: TextStyle(
-                   fontSize: 30,
+                   fontSize: 23,
                  ),
                    ),
 
@@ -119,25 +120,41 @@ class _ChatBotState extends State<chatBot> {
                  },
                ),
              ),
-              ListTile(
+              Padding(
+                padding: const EdgeInsets.only(bottom: 50,),
+              child: ListTile(
                 leading: Icon(
                   Icons.favorite,
-                  color: Colors.pinkAccent,
+                  color: HexColor('FBC52C'),
                 ),
-                title: Text('お気に入り'),
+                title: Text(
+                    'お気に入り',
+                  style: TextStyle(
+                    fontSize: 23,
+                  ),
+                ),
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite()));
                 },
               ),
-              ListTile(
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 50,),
+              child: ListTile(
                 leading: Icon(
                   Icons.create,
-                  color: Colors.green,
+                  color: HexColor('FBC52C'),
                 ),
-                title: Text('診察履歴'),
+                title: Text(
+                    '診察履歴',
+                  style: TextStyle(
+                    fontSize: 23,
+                  ),
+                ),
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryList()));
                 },
+              ),
               ),
             ],
           ),
@@ -150,7 +167,7 @@ class _ChatBotState extends State<chatBot> {
           SliverList(
               delegate: SliverChildBuilderDelegate(
               (context, index){
-                return Container(
+                return  Container(
                   child: (index % 2 == 0) ?
                   Padding(
                       padding: const EdgeInsets.only(bottom: 25 ),
@@ -168,7 +185,7 @@ class _ChatBotState extends State<chatBot> {
                             fontSize: 16,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   )
                   // ListTile(
@@ -214,12 +231,34 @@ class _ChatBotState extends State<chatBot> {
             delegate: SliverChildBuilderDelegate(
                   (context, index){
                 return
-                  ElevatedButton(
-                    child: Text(dataList[index].content),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                child: OutlinedButton(
+                    child: Text(
+                        dataList[index].content,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                     onPressed: () => {
                       setKey(dataList[index].question,dataList[index].nextId),
                       //getData(dataList[index].nextId),
                     },
+                  style: OutlinedButton.styleFrom(
+                    primary: HexColor('555555'),
+                    backgroundColor: HexColor('FFFFFF'),
+                    side: const BorderSide(
+                        color: Colors.lightBlueAccent
+                    ),
+                    minimumSize: Size(300, 50),
+                    textStyle: TextStyle(
+                        fontSize: 18
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  ),
                   );
               },
               childCount: dataList.length,

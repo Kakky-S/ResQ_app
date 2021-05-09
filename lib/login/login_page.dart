@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_chatbot_app/chatBot/chatBot_page.dart';
+import 'package:resq_chatbot_app/color/color.dart';
 import 'package:resq_chatbot_app/favorite/favorite_page.dart';
 import 'package:resq_chatbot_app/historyList/historyList_page.dart';
 import 'package:resq_chatbot_app/signup/signup_page.dart';
@@ -52,11 +53,14 @@ class LoginPage extends StatelessWidget {
                         ),
                       Padding(
                         padding: const EdgeInsets.only(bottom:10.0),
-                        child: ElevatedButton(
+                        child: OutlinedButton(
                           child: Text('診察をはじめる'),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.orange,
-                            onPrimary: Colors.white,
+                          style: OutlinedButton.styleFrom(
+                            primary: HexColor('555555'),
+                            backgroundColor: HexColor('FFFFFF'),
+                            side: const BorderSide(
+                                color: Colors.orange
+                            ),
                             minimumSize: Size(300, 50),
                             textStyle: TextStyle(
                                 fontSize: 18
@@ -84,10 +88,10 @@ class LoginPage extends StatelessWidget {
                             child: Text('アカウントを作成する'),
 
                           style: OutlinedButton.styleFrom(
-                            primary: Colors.orange,
-                            backgroundColor: Colors.white,
+                            primary: HexColor('555555'),
+                            backgroundColor: HexColor('FFFFFF'),
                             side: const BorderSide(
-                                color: Colors.orange
+                                color: Colors.lightBlueAccent
                             ),
                             minimumSize: Size(300, 50),
                             textStyle: TextStyle(

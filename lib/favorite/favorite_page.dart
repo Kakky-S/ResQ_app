@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:resq_chatbot_app/chatBot/chatBot_page.dart';
+import 'package:resq_chatbot_app/color/color.dart';
 import 'package:resq_chatbot_app/favorite/favorite.dart';
 import 'package:resq_chatbot_app/favoriteSymptom/favoriteSymptom_page.dart';
+import 'package:resq_chatbot_app/historyList/historyList_page.dart';
 
 class Favorite extends StatefulWidget{
   Favorite({Key key}) : super(key: key);
@@ -48,6 +51,70 @@ class _Favorite extends State<Favorite> {
      appBar: AppBar(
        title: Text('お気に入り'),
      ),
+     endDrawer: Drawer(
+       child: Padding(
+         padding: const EdgeInsets.only(top: 100, right: 20, left: 20 ),
+         child: ListView(
+           children: [
+             Padding(
+               padding: const EdgeInsets.only(bottom: 50,),
+               child:  ListTile(
+                 leading: Icon(
+                   Icons.chat,
+                   color: HexColor('FBC52C'),
+                 ),
+                 title: Text(
+                   '診察',
+                   style: TextStyle(
+                     fontSize: 23,
+                   ),
+                 ),
+
+                 onTap: (){
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
+                 },
+               ),
+             ),
+             Padding(
+               padding: const EdgeInsets.only(bottom: 50,),
+               child: ListTile(
+                 leading: Icon(
+                   Icons.favorite,
+                   color: HexColor('FBC52C'),
+                 ),
+                 title: Text(
+                   'お気に入り',
+                   style: TextStyle(
+                     fontSize: 23,
+                   ),
+                 ),
+                 onTap: (){
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite()));
+                 },
+               ),
+             ),
+             Padding(
+               padding: const EdgeInsets.only(bottom: 50,),
+               child: ListTile(
+                 leading: Icon(
+                   Icons.create,
+                   color: HexColor('FBC52C'),
+                 ),
+                 title: Text(
+                   '診察履歴',
+                   style: TextStyle(
+                     fontSize: 23,
+                   ),
+                 ),
+                 onTap: (){
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryList()));
+                 },
+               ),
+             ),
+           ],
+         ),
+       ),
+     ),
      body: StreamBuilder<QuerySnapshot>(
          stream: favorite.snapshots(),
          builder: (context, snapshot){
@@ -62,7 +129,7 @@ class _Favorite extends State<Favorite> {
                    trailing: IconButton(
                      icon: Icon(
                          Icons.delete,
-                       color: Colors.grey,
+                       color: HexColor('6BB8FF'),
                      ),
                      onPressed: () async {
                        var result = await showDialog<int>(
@@ -98,7 +165,6 @@ class _Favorite extends State<Favorite> {
                }
            );
          }
-
      ),
    );
 
