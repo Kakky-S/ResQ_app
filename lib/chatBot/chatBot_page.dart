@@ -14,7 +14,7 @@ class chatBot extends StatefulWidget{
 
 class _ChatBotState extends State<chatBot> {
   List<Data> dataList = [];
-  List<String> chatArea = ['今日は、どうしましたか'];
+  List<String> chatArea = ['今日は、どうしましたか？'];
 
 
   void setKey(_key, key) {
@@ -175,7 +175,7 @@ class _ChatBotState extends State<chatBot> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        child: Image.asset('images/logo_main.png', width: 50),
+                        child: Image.asset('images/docter.png', width: 50),
                       ),
                       Padding(padding: const EdgeInsets.only(left: 10 )),
                       Container(
@@ -209,7 +209,7 @@ class _ChatBotState extends State<chatBot> {
                           ),
                           Padding(padding: const EdgeInsets.only(right: 10 )),
                           Container(
-                            child: Image.asset('images/logo_main.png', width: 30),
+                            child: Image.asset('images/patient.png', width: 50),
                           ),
                         ],
                       )

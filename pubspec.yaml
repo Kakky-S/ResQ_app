@@ -50,6 +50,8 @@ flutter:
   assets:
     - images/logo_main.png
     - images/logo_sub.png
+    - images/docter.png
+    - images/patient.png
 
   fonts:
     - family: Montserrat

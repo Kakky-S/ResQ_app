@@ -45,7 +45,7 @@ class _HistoryList extends State<HistoryList> {
                 child:  ListTile(
                   leading: Icon(
                     Icons.chat,
-                    color: Colors.blue,
+                    color: HexColor('FBC52C'),
                   ),
                   title: Text(
                     '診察',
@@ -64,7 +64,7 @@ class _HistoryList extends State<HistoryList> {
                 child: ListTile(
                   leading: Icon(
                     Icons.favorite,
-                    color: Colors.pinkAccent,
+                    color: HexColor('FBC52C'),
                   ),
                   title: Text(
                     'お気に入り',
@@ -82,7 +82,7 @@ class _HistoryList extends State<HistoryList> {
                 child: ListTile(
                   leading: Icon(
                     Icons.create,
-                    color: Colors.green,
+                    color: HexColor('FBC52C'),
                   ),
                   title: Text(
                     '診察履歴',

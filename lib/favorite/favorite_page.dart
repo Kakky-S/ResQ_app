@@ -124,7 +124,11 @@ class _Favorite extends State<Favorite> {
            return ListView.builder(
                itemCount: snapshot.data.docs.length,
                itemBuilder: (context, index){
-                 return ListTile(
+                 return Padding(
+                     padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+                   child:Ink(
+                   color: HexColor('6BB8FF'),
+                     child: ListTile(
                    title: Text(snapshot.data.docs[index].data()['title']),
                    trailing: IconButton(
                      icon: Icon(
@@ -161,6 +165,8 @@ class _Favorite extends State<Favorite> {
                    onTap: (){
                      Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteSymptom(paramText: snapshot.data.docs[index].data()['key'])));
                    },
+                 ),
+                   ),
                  );
                }
            );
