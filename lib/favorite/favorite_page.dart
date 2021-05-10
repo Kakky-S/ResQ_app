@@ -64,7 +64,7 @@ class _Favorite extends State<Favorite> {
                    color: HexColor('FBC52C'),
                  ),
                  title: Text(
-                   '診察',
+                   '診察を始める',
                    style: TextStyle(
                      fontSize: 23,
                    ),
@@ -126,8 +126,12 @@ class _Favorite extends State<Favorite> {
                itemBuilder: (context, index){
                  return Padding(
                      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
-                   child:Ink(
-                   color: HexColor('6BB8FF'),
+                   child:Container(
+                     decoration: BoxDecoration(
+                         border: Border(
+                             bottom: BorderSide(color: HexColor('FBC52C'))
+                         )
+                     ),
                      child: ListTile(
                    title: Text(snapshot.data.docs[index].data()['title']),
                    trailing: IconButton(
@@ -142,17 +146,17 @@ class _Favorite extends State<Favorite> {
                            builder: (BuildContext context){
                              return AlertDialog(
                                title: Text('本当に削除しますか？'),
-                               content: Text('確認のダイアログです。'),
+                               content: Text('一度削除すると戻すことができません。'),
                                actions: [
                                  TextButton(
-                                     child: Text('OK'),
+                                     child: Text('はい'),
                                      onPressed: () async{
                                        await deleteFavorite(snapshot.data.docs[index].id);
                                        Navigator.pop(context);
                                      }
                                  ),
                                  TextButton(
-                                     child: Text('Cancel'),
+                                     child: Text('いいえ'),
                                      onPressed: () => Navigator.pop(context)
                                  )
                                ],

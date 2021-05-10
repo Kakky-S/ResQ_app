@@ -48,7 +48,7 @@ class _HistoryList extends State<HistoryList> {
                     color: HexColor('FBC52C'),
                   ),
                   title: Text(
-                    '診察',
+                    '診察を始める',
                     style: TextStyle(
                       fontSize: 23,
                     ),
@@ -130,17 +130,17 @@ class _HistoryList extends State<HistoryList> {
                             builder: (BuildContext context){
                               return AlertDialog(
                                 title: Text('本当に削除しますか？'),
-                                content: Text('確認のダイアログです。'),
+                                content: Text('一度削除すると戻すことができません。'),
                                 actions: [
                                   TextButton(
-                                      child: Text('OK'),
+                                      child: Text('はい'),
                                       onPressed: () async{
                                         await deleteFavorite(snapshot.data.docs[index].id);
                                         Navigator.pop(context);
                                       }
                                   ),
                                   TextButton(
-                                      child: Text('Cancel'),
+                                      child: Text('いいえ'),
                                       onPressed: () => Navigator.pop(context)
                                   )
                                 ],

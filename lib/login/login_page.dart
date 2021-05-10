@@ -102,12 +102,12 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        ElevatedButton(
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
-                            },
-                            child: Text('診察を始める')
-                        ),
+                        // ElevatedButton(
+                        //     onPressed: (){
+                        //       Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
+                        //     },
+                        //     child: Text('診察を始める')
+                        // ),
 
                       ],
                     ),

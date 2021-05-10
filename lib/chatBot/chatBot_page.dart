@@ -17,13 +17,14 @@ class _ChatBotState extends State<chatBot> {
   List<String> chatArea = ['今日は、どうしましたか？'];
 
 
-  void setKey(_key, key) {
-      
+  void setKey(_key, key, question) {
+
     chatArea.add(_key);
+    chatArea.add(question);
       // 症状ページに遷移
       switch(key) {
-        case 'kosi':
-          addSymptom(key);
+        case 'answerWhiplash':
+          addSymptom(question);
           chatArea.clear();
           // 症状ページに遷移する際に値を受け渡し
           Navigator.push(context, MaterialPageRoute(builder: (context) => Symptom(paramText: key)));
@@ -49,7 +50,7 @@ class _ChatBotState extends State<chatBot> {
     await collection.add({
       'created_date': Timestamp.now(),
       'text': chatArea,
-      'title': key
+      'title': ('診断名 : ''${key}')
     });
   }
 
@@ -57,8 +58,8 @@ class _ChatBotState extends State<chatBot> {
   // メモの取得
   Future<void> getData(key) async{
 
-    var snapshot = await FirebaseFirestore.instance.collection('testdata').doc(key).get();
-    var docs = snapshot.data()['answer'];
+    var snapshot = await FirebaseFirestore.instance.collection('medical_consultation').doc(key).get();
+    var docs = snapshot.data()['answers'];
 
     if(dataList.length >= 0){
       dataList.clear();
@@ -70,7 +71,7 @@ class _ChatBotState extends State<chatBot> {
         // content: docs['content'], //answer[0]['content'],
         content: docs['content'],
         nextId: docs['nextId'],
-        question: docs['nextQuestion'],
+        question: docs['question'],
       ));
       // chatArea.add(Data(
       //   // content: docs['content'], //answer[0]['content'],
@@ -83,7 +84,7 @@ class _ChatBotState extends State<chatBot> {
   @override
   void initState(){
     super.initState();
-    getData('test');
+    getData('init');
   }
 
   void chat(){
@@ -94,7 +95,7 @@ class _ChatBotState extends State<chatBot> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('chatbot'),
+        title: Text('診察中'),
       ),
       endDrawer: Drawer(
         child: Padding(
@@ -109,7 +110,7 @@ class _ChatBotState extends State<chatBot> {
                    color: HexColor('FBC52C'),
                  ),
                  title: Text(
-                     '診察',
+                     '診察を始める',
                  style: TextStyle(
                    fontSize: 23,
                  ),
@@ -160,113 +161,217 @@ class _ChatBotState extends State<chatBot> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 40, right: 20, left: 20),
-        child: CustomScrollView(
-        slivers: [
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-              (context, index){
-                return  Container(
-                  child: (index % 2 == 0) ?
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 25 ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Image.asset('images/docter.png', width: 50),
-                      ),
-                      Padding(padding: const EdgeInsets.only(left: 10 )),
-                      Container(
+       body:Column(
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: 450.0,
+            ),
+            child: Container(
+              color: HexColor('EDF5FF'),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+            child: ListView.builder(
+                itemCount: chatArea.length,
+                itemBuilder: (context, index){
+                  return (
+                      (index % 2 == 0) ?
+                          Padding(padding: const EdgeInsets.only(bottom: 25 ),
+                            child:
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Image.asset('images/docter.png', width: 50),
+                                ),
+                                  Padding(padding: const EdgeInsets.only(left: 10 )),
+                                 Container(
+                                   width: 300,
+                                    child: Text(
+                                      chatArea[index],
+                                      style: TextStyle(
+                                        fontSize: 16
+                                      )
+                                    ),
+                                 )
+                              ],
+                            )
+                          )
+                      :
+                      Padding(padding: const EdgeInsets.only(bottom: 25 ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+
+                            Container(
+                              child: Text(
+                                  chatArea[index],
+                                  style: TextStyle(
+                                      fontSize: 16
+                                  )
+                              ),
+                            ),
+                            Padding(padding: const EdgeInsets.only(right: 10 )),
+                            Container(
+                              child: Image.asset('images/patient.png', width: 50),
+                            )
+                          ],
+                        ),
+                      )
+                  );
+                }),
+                ),
+
+          ),
+          ),
+          Padding(
+              padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: 300.0,
+            ),
+            child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: dataList.length,
+                itemBuilder: (context, index){
+                  return
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: OutlinedButton(
                         child: Text(
-                            chatArea[index],
+                          dataList[index].content,
                           style: TextStyle(
                             fontSize: 16,
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                  // ListTile(
-                  //   leading: Image.asset('images/logo_main.png', width: 30),
-                  //   title: Text(chatArea[index]),
-                  //  )
-                )
-                  :
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 25 ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            child: Text(
-                                chatArea[index],
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
+                        onPressed: () => {
+                          setKey(dataList[index].content,dataList[index].nextId,dataList[index].question),
+                          //getData(dataList[index].nextId),
+                        },
+                        style: OutlinedButton.styleFrom(
+                          primary: HexColor('555555'),
+                          backgroundColor: HexColor('FFFFFF'),
+                          side: const BorderSide(
+                              color: Colors.lightBlueAccent
                           ),
-                          Padding(padding: const EdgeInsets.only(right: 10 )),
-                          Container(
-                            child: Image.asset('images/patient.png', width: 50),
+                          minimumSize: Size(300, 50),
+                          textStyle: TextStyle(
+                              fontSize: 18
                           ),
-                        ],
-                      )
-                  //   child: ListTile(
-                  //   trailing: Icon(
-                  //     Icons.chat,
-                  //     color: Colors.pinkAccent,
-                  //   ),
-                  //   title: Text(chatArea[index]),
-                  // ),
-                )
-                );
-              },
-                childCount: chatArea.length,
-          ),
-          ),
-
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (context, index){
-                return
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                child: OutlinedButton(
-                    child: Text(
-                        dataList[index].content,
-                      style: TextStyle(
-                        fontSize: 16,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
                       ),
-                    ),
-                    onPressed: () => {
-                      setKey(dataList[index].question,dataList[index].nextId),
-                      //getData(dataList[index].nextId),
-                    },
-                  style: OutlinedButton.styleFrom(
-                    primary: HexColor('555555'),
-                    backgroundColor: HexColor('FFFFFF'),
-                    side: const BorderSide(
-                        color: Colors.lightBlueAccent
-                    ),
-                    minimumSize: Size(300, 50),
-                    textStyle: TextStyle(
-                        fontSize: 18
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  ),
-                  );
-              },
-              childCount: dataList.length,
-            ),
+                    );
+                }),
+          )
           ),
         ],
-      ),
-      )
+      //   CustomScrollView(
+      //   slivers: [
+      //     SliverList(
+      //         delegate: SliverChildBuilderDelegate(
+      //         (context, index){
+      //           return  Container(
+      //             child: (index % 2 == 0) ?
+      //             Padding(
+      //                 padding: const EdgeInsets.only(bottom: 25 ),
+      //             child: Row(
+      //               mainAxisAlignment: MainAxisAlignment.start,
+      //               children: [
+      //                 Container(
+      //                   child: Image.asset('images/docter.png', width: 50),
+      //                 ),
+      //                 Padding(padding: const EdgeInsets.only(left: 10 )),
+      //                 Container(
+      //                   child: Text(
+      //                       chatArea[index],
+      //                     style: TextStyle(
+      //                       fontSize: 16,
+      //                     ),
+      //                   ),
+      //                 ),
+      //               ],
+      //             )
+      //             // ListTile(
+      //             //   leading: Image.asset('images/logo_main.png', width: 30),
+      //             //   title: Text(chatArea[index]),
+      //             //  )
+      //           )
+      //             :
+      //             Padding(
+      //               padding: const EdgeInsets.only(bottom: 25 ),
+      //                 child: Row(
+      //                   mainAxisAlignment: MainAxisAlignment.end,
+      //                   children: [
+      //                     Container(
+      //                       child: Text(
+      //                           chatArea[index],
+      //                         style: TextStyle(
+      //                           fontSize: 16,
+      //                         ),
+      //                       ),
+      //                     ),
+      //                     Padding(padding: const EdgeInsets.only(right: 10 )),
+      //                     Container(
+      //                       child: Image.asset('images/patient.png', width: 50),
+      //                     ),
+      //                   ],
+      //                 )
+      //             //   child: ListTile(
+      //             //   trailing: Icon(
+      //             //     Icons.chat,
+      //             //     color: Colors.pinkAccent,
+      //             //   ),
+      //             //   title: Text(chatArea[index]),
+      //             // ),
+      //           )
+      //           );
+      //         },
+      //           childCount: chatArea.length,
+      //     ),
+      //     ),
+      //
+      //     SliverList(
+      //       delegate: SliverChildBuilderDelegate(
+      //             (context, index){
+      //           return
+      //             Padding(
+      //               padding: const EdgeInsets.only(bottom: 15),
+      //           child: OutlinedButton(
+      //               child: Text(
+      //                   dataList[index].content,
+      //                 style: TextStyle(
+      //                   fontSize: 16,
+      //                 ),
+      //               ),
+      //               onPressed: () => {
+      //                 setKey(dataList[index].question,dataList[index].nextId),
+      //                 //getData(dataList[index].nextId),
+      //               },
+      //             style: OutlinedButton.styleFrom(
+      //               primary: HexColor('555555'),
+      //               backgroundColor: HexColor('FFFFFF'),
+      //               side: const BorderSide(
+      //                   color: Colors.lightBlueAccent
+      //               ),
+      //               minimumSize: Size(300, 50),
+      //               textStyle: TextStyle(
+      //                   fontSize: 18
+      //               ),
+      //               shape: RoundedRectangleBorder(
+      //                 borderRadius: BorderRadius.circular(20),
+      //               ),
+      //             ),
+      //             ),
+      //             );
+      //         },
+      //         childCount: dataList.length,
+      //       ),
+      //     ),
+      //   ],
+      // ),
       // ListView.builder(
       //         itemCount: dataList.length,
       //         itemBuilder: (context,index){
@@ -281,7 +386,9 @@ class _ChatBotState extends State<chatBot> {
       //               child: Text(dataList[index].nextId),
       //           );
       //         },
-      //       ),
+      //
+    //       ),
+       ),
     );
   }
 }

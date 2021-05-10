@@ -38,7 +38,7 @@ class _History extends State<History> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.paramText),
+        title: Text('診察履歴'),
       ),
 
       body: CustomScrollView(

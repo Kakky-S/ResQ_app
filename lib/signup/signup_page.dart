@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_chatbot_app/color/color.dart';
+import 'package:resq_chatbot_app/login/login_page.dart';
 import 'package:resq_chatbot_app/signup/signup_model.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -78,6 +79,7 @@ class SignUpPage extends StatelessWidget {
                       try {
                         await model.signUp();
                         _showDialog(context, '登録を完了しました');
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                       } catch(e){
                         _showDialog(context, e.toString());
                       }

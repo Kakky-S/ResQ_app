@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:resq_chatbot_app/color/color.dart';
 import 'package:resq_chatbot_app/favoriteSymptom/favoriteSymptom.dart';
 
 class FavoriteSymptom extends StatefulWidget{
@@ -11,35 +12,61 @@ class FavoriteSymptom extends StatefulWidget{
 }
 
 class _FavoriteSymptom extends State<FavoriteSymptom> {
+  List<favoriteSymptomData> causeList = [];
   List<favoriteSymptomData> symptomList = [];
+  List<favoriteSymptomData> treatmentList = [];
   List<favoriteSymptomData> setlist =[];
   List<favoriteSymptomData> textList = [];
-  List<favoriteSymptomData> multipleList = [];
+  List<favoriteSymptomData> featureList = [];
+  List<favoriteSymptomData> whereList = [];
+  var bool = false;
 
   Future<void> page() async{
     var snapshots = await FirebaseFirestore.instance.collection('symptom').doc(widget.paramText).get();
-    var data = snapshots.data()['test3']['ssss'];
-    var title = snapshots.data()['test2'];
-    var multiple = snapshots.data()['test4'];
+    var cause =  snapshots.data()['cause']['list'];
+    var symptom =  snapshots.data()['symptom']['list'];
+    var treatment =  snapshots.data()['treatment']['list'];
+    var title =  snapshots.data()['subTitle'];
+    var feature =  snapshots.data()['feature'];
+    var where =  snapshots.data()['where'];
 
     // タイトルを取得
     title.forEach((docs){
       setlist.add(favoriteSymptomData(
-        title:  docs['test'],//doc.data()['test']
+        title:  docs['title'],//doc.data()['test']
         //title: doc['test']
       ));
     });
 
-    // リストを取得
-    data.forEach((doc){
+    // 原因を取得
+    cause.forEach((doc){
+      causeList.add(favoriteSymptomData(
+        list: doc,
+      ));
+    });
+    // 症状を取得
+    symptom.forEach((doc){
       symptomList.add(favoriteSymptomData(
         list: doc,
       ));
     });
+    // 治療方法を取得
+    treatment.forEach((doc){
+      treatmentList.add(favoriteSymptomData(
+        list: doc,
+      ));
+    });
 
-    // 複数行を取得
-    multiple.forEach((doc){
-      multipleList.add(favoriteSymptomData(
+    // 症状の特徴を取得
+    feature.forEach((doc){
+      featureList.add(favoriteSymptomData(
+        multiple: doc,
+      ));
+    });
+
+    // どこに行くべきかを取得
+    where.forEach((doc){
+      whereList.add(favoriteSymptomData(
         multiple: doc,
       ));
     });
@@ -55,77 +82,308 @@ class _FavoriteSymptom extends State<FavoriteSymptom> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build (BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.paramText),
       ),
-      body:
 
-      CustomScrollView(
-          slivers: [
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index){
-                  return
-                    Container(
-                      child: Column(
+      body:
+      Padding(
+        padding: const EdgeInsets.only(bottom: 80),
+        child: CustomScrollView(
+            slivers: [
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return
+                      Container(
+                        child: Column(
+                          children: [
+                            Padding(padding: const EdgeInsets.only(top: 60)),
+                            Text(
+                              '最も疑わしい症状',
+                              style: TextStyle(
+                                fontSize: 22,
+                              ),
+                            ),
+                            Padding(padding: const EdgeInsets.only(top: 15)),
+                            Text(
+                              setlist[index].title,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                  },
+                  childCount: 1,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 30),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: HexColor('FBC52C')),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(padding: const EdgeInsets.only(top: 50, right: 20)),
+                            Text(
+                              'どこに行くべき？',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  childCount: 1,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 40, right: 40, bottom: 15),
+                      child: Wrap(
                         children: [
-                          Text('最も疑わしい症状'),
-                          Text(setlist[index].title)
+                          Text(
+                            whereList[index].multiple,
+                            maxLines: null,
+                            style: TextStyle(
+                                fontSize: 16,
+                                height: 1.8
+                            ),
+                          )
                         ],
                       ),
                     );
-                },
-                childCount: 1,
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index){
-                  return
-                  Container(
-                    child: Row(
-                      children: [
-                        Text('行くべきところ'),
-                      ],
-                    ),
-                  );
-                },
-                childCount: 1,
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index){
-                  return
-                  Container(
-                    child: Row(
-                      children: [
-                        Text(symptomList[index].list),
-                      ],
-                    ),
-                  );
-                },
-                childCount: symptomList.length,
-              ),
-            ),
 
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index){
-                  return
-                    ListTile(
 
-                      title: Text(multipleList[index].multiple),
+                    // ListTile(
+                    //   title: Text(multipleList[index].multiple),
+                    // );
+                  },
+                  childCount: whereList.length,
+                ),
+              ),
+
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 30),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: HexColor('FBC52C')),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(padding: const EdgeInsets.only(top: 50, right: 20)),
+                              Text(
+                                '症状の特徴',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                  },
+                  childCount: 1,
+                ),
+              ),
+
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 40, right: 40),
+                      child: Wrap(
+                        children: [
+                          Text(
+                            featureList[index].multiple,
+                            maxLines: null,
+                            style: TextStyle(
+                                fontSize: 16,
+                                height: 1.8
+                            ),
+                          )
+                        ],
+                      ),
                     );
-                },
-                childCount: multipleList.length,
-              ),
-            ),
-          ]
-      ),
 
+
+                    // ListTile(
+                    //   title: Text(multipleList[index].multiple),
+                    // );
+                  },
+                  childCount: featureList.length,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 30),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: HexColor('FBC52C')),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(padding: const EdgeInsets.only(top: 50, right: 20)),
+                              Text(
+                                '主な症状',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                  },
+                  childCount: 1,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return
+                      Container(
+                        child: Row(
+                          children: [
+                            Padding(padding: const EdgeInsets.only(top: 40, left: 20, right: 20)),
+                            Text(
+                              symptomList[index].list,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                  },
+                  childCount: symptomList.length,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 30),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: HexColor('FBC52C')),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(padding: const EdgeInsets.only(top: 50, right: 20)),
+                              Text(
+                                '主な原因',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                  },
+                  childCount: 1,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return
+                      Container(
+                        child: Row(
+                          children: [
+                            Padding(padding: const EdgeInsets.only(top: 40, left: 20, right: 20)),
+                            Text(
+                              causeList[index].list,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                  },
+                  childCount: causeList.length,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 30),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: HexColor('FBC52C')),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(padding: const EdgeInsets.only(top: 50, right: 20)),
+                              Text(
+                                '主な治療法',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                  },
+                  childCount: 1,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index){
+                    return
+                      Container(
+                        child: Row(
+                          children: [
+                            Padding(padding: const EdgeInsets.only(top: 40, left: 20, right: 20)),
+                            Text(
+                              treatmentList[index].list,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                  },
+                  childCount: treatmentList.length,
+                ),
+              ),
+            ]
+        ),
+      ),
     );
   }
 }
+
