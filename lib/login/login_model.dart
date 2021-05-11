@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +27,3 @@ class LoginModel extends ChangeNotifier {
 
   }
 }
-
-// todo 両方とも入力されているかを確認
-// todo 送信を押したらページ移動と入力をクリアにする

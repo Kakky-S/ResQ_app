@@ -1,6 +1,6 @@
+// 診察履歴のページ
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:resq_chatbot_app/favoriteSymptom/favoriteSymptom.dart';
 import 'package:resq_chatbot_app/history/history.dart';
 
 class History extends StatefulWidget{
@@ -17,7 +17,6 @@ class _History extends State<History> {
   Future<void> page() async{
     var snapshots = await FirebaseFirestore.instance.collection('test').doc(widget.paramText).get();
     var multiple = snapshots.data()['text'];
-
 
     // 複数行を取得
     multiple.forEach((doc){
@@ -51,6 +50,7 @@ class _History extends State<History> {
                       padding: const EdgeInsets.only(top: 20, right: 20, left: 20 ),
                   child: Container(
                     child: (index % 2 == 0) ?
+                    // 質問を表示
                     Container(
                         decoration: BoxDecoration(
                           border: Border(
@@ -70,6 +70,7 @@ class _History extends State<History> {
                     )
                       )
                     :
+                    // 回答を表示
                     Container(
                       decoration: BoxDecoration(
                           border: Border(

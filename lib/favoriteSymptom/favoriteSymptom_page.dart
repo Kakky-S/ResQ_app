@@ -1,3 +1,4 @@
+// お気に入りに入れた症状の情報を表示する用のファイル
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:resq_chatbot_app/color/color.dart';
@@ -12,12 +13,20 @@ class FavoriteSymptom extends StatefulWidget{
 }
 
 class _FavoriteSymptom extends State<FavoriteSymptom> {
+  // 症状の原因を格納するList
   List<favoriteSymptomData> causeList = [];
+  // 症状を格納するList
   List<favoriteSymptomData> symptomList = [];
+  // 治療方法を格納するList
   List<favoriteSymptomData> treatmentList = [];
+  // タイトルを格納するList
   List<favoriteSymptomData> setlist =[];
-  List<favoriteSymptomData> textList = [];
+
+  // List<favoriteSymptomData> textList = [];
+
+  // 症状の特徴を格納するList
   List<favoriteSymptomData> featureList = [];
+  // どこに行くべきかを格納するList
   List<favoriteSymptomData> whereList = [];
   var bool = false;
 
@@ -167,11 +176,6 @@ class _FavoriteSymptom extends State<FavoriteSymptom> {
                         ],
                       ),
                     );
-
-
-                    // ListTile(
-                    //   title: Text(multipleList[index].multiple),
-                    // );
                   },
                   childCount: whereList.length,
                 ),
@@ -224,11 +228,6 @@ class _FavoriteSymptom extends State<FavoriteSymptom> {
                         ],
                       ),
                     );
-
-
-                    // ListTile(
-                    //   title: Text(multipleList[index].multiple),
-                    // );
                   },
                   childCount: featureList.length,
                 ),

@@ -1,9 +1,8 @@
+// ログインページのファイル
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_chatbot_app/chatBot/chatBot_page.dart';
 import 'package:resq_chatbot_app/color/color.dart';
-import 'package:resq_chatbot_app/favorite/favorite_page.dart';
-import 'package:resq_chatbot_app/historyList/historyList_page.dart';
 import 'package:resq_chatbot_app/signup/signup_page.dart';
 import 'login_model.dart';
 
@@ -102,13 +101,6 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // ElevatedButton(
-                        //     onPressed: (){
-                        //       Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
-                        //     },
-                        //     child: Text('診察を始める')
-                        // ),
-
                       ],
                     ),
               );

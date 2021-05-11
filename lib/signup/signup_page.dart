@@ -1,3 +1,4 @@
+// 新規会員登録ページ
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_chatbot_app/color/color.dart';

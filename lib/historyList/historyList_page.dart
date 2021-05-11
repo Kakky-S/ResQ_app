@@ -1,10 +1,9 @@
+// 診察履歴のリストを表示するページのファイル
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:resq_chatbot_app/chatBot/chatBot_page.dart';
 import 'package:resq_chatbot_app/color/color.dart';
-import 'package:resq_chatbot_app/favorite/favorite.dart';
 import 'package:resq_chatbot_app/favorite/favorite_page.dart';
-import 'package:resq_chatbot_app/favoriteSymptom/favoriteSymptom_page.dart';
 import 'package:resq_chatbot_app/history/history_page.dart';
 
 class HistoryList extends StatefulWidget{

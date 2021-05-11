@@ -1,8 +1,8 @@
+// お気に入りリストに関するページ
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:resq_chatbot_app/chatBot/chatBot_page.dart';
 import 'package:resq_chatbot_app/color/color.dart';
-import 'package:resq_chatbot_app/favorite/favorite.dart';
 import 'package:resq_chatbot_app/favoriteSymptom/favoriteSymptom_page.dart';
 import 'package:resq_chatbot_app/historyList/historyList_page.dart';
 
@@ -15,23 +15,6 @@ class Favorite extends StatefulWidget{
 
 class _Favorite extends State<Favorite> {
   CollectionReference favorite;
-  //List<favorites> favoriteList = [];
-  //
-  // Future<void> page() async{
-  //   var snapshots = await FirebaseFirestore.instance.collection('mylist').get();
-  //   var docs = snapshots.docs;
-  //
-  //   // タイトルを取得
-  //   docs.forEach((doc){
-  //     favoriteList.add(favorites(
-  //       title: doc.data()['title'],
-  //       key: doc.data()['key'],
-  //       //createdTime: doc.data()['created_date']
-  //     ));
-  //   });
-  //   setState(() {});
-  //
-  // }
 
   @override
   void initState(){
@@ -163,7 +146,6 @@ class _Favorite extends State<Favorite> {
                              );
                            }
                        );
-                       //deleteFavorite(favoriteList[index].id);
                      },
                    ),
                    onTap: (){

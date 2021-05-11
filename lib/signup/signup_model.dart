@@ -8,9 +8,6 @@ class SignUpModel extends ChangeNotifier {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // バリデーション
-  // todo 両方とも入力されているかを確認
-  // todo 送信を押したらページ移動と入力をクリアにする
   Future signUp() async{
     if (mail.isEmpty){
       throw('メールアドレスを入力してください');
@@ -33,6 +30,3 @@ class SignUpModel extends ChangeNotifier {
         );
   }
 }
-
-// todo 両方とも入力されているかを確認
-// todo 送信を押したらページ移動と入力をクリアにする
