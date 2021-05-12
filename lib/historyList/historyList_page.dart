@@ -6,24 +6,24 @@ import 'package:resq_chatbot_app/color/color.dart';
 import 'package:resq_chatbot_app/favorite/favorite_page.dart';
 import 'package:resq_chatbot_app/history/history_page.dart';
 
-class HistoryList extends StatefulWidget{
+class HistoryList extends StatefulWidget {
   HistoryList({Key key}) : super(key: key);
 
   @override
-  _HistoryList createState() =>  _HistoryList();
+  _HistoryList createState() => _HistoryList();
 }
 
 class _HistoryList extends State<HistoryList> {
   CollectionReference favorite;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     favorite = FirebaseFirestore.instance.collection('test');
   }
 
   // 削除機能
-  Future<void> deleteFavorite(String docId) async{
+  Future<void> deleteFavorite(String docId) async {
     var document = FirebaseFirestore.instance.collection('test').doc(docId);
     document.delete();
   }
@@ -36,12 +36,12 @@ class _HistoryList extends State<HistoryList> {
       ),
       endDrawer: Drawer(
         child: Padding(
-          padding: const EdgeInsets.only(top: 100, right: 20, left: 20 ),
+          padding: const EdgeInsets.only(top: 100, right: 20, left: 20),
           child: ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 50,),
-                child:  ListTile(
+                child: ListTile(
                   leading: Icon(
                     Icons.chat,
                     color: HexColor('FBC52C'),
@@ -53,8 +53,9 @@ class _HistoryList extends State<HistoryList> {
                     ),
                   ),
 
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => chatBot()));
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => chatBot()));
                   },
                 ),
               ),
@@ -71,8 +72,9 @@ class _HistoryList extends State<HistoryList> {
                       fontSize: 23,
                     ),
                   ),
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite()));
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Favorite()));
                   },
                 ),
               ),
@@ -89,8 +91,9 @@ class _HistoryList extends State<HistoryList> {
                       fontSize: 23,
                     ),
                   ),
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryList()));
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HistoryList()));
                   },
                 ),
               ),
@@ -100,60 +103,66 @@ class _HistoryList extends State<HistoryList> {
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: favorite.snapshots(),
-          builder: (context, snapshot){
-            if(snapshot.connectionState == ConnectionState.waiting) {
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
             }
             return ListView.builder(
                 itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index){
-                  return  Padding(
-                    padding: const EdgeInsets.only(top: 20, right: 20, left: 20 ),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        top: 20, right: 20, left: 20),
                     child: Container(
                       decoration: BoxDecoration(
-                      border: Border(
-                      bottom: BorderSide(color: HexColor('FBC52C'))
-                  )
-                  ),
-                    child: ListTile(
-                    title: Text(snapshot.data.docs[index].data()['title']),
-                    trailing: IconButton(
-                      icon: Icon(
-                          Icons.delete,
-                        color: HexColor('6BB8FF'),
+                          border: Border(
+                              bottom: BorderSide(color: HexColor('FBC52C'))
+                          )
                       ),
-                      onPressed: () async {
-                        var result = await showDialog<int>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context){
-                              return AlertDialog(
-                                title: Text('本当に削除しますか？'),
-                                content: Text('一度削除すると戻すことができません。'),
-                                actions: [
-                                  TextButton(
-                                      child: Text('はい'),
-                                      onPressed: () async{
-                                        await deleteFavorite(snapshot.data.docs[index].id);
-                                        Navigator.pop(context);
-                                      }
-                                  ),
-                                  TextButton(
-                                      child: Text('いいえ'),
-                                      onPressed: () => Navigator.pop(context)
-                                  )
-                                ],
-                              );
-                            }
-                        );
-                        //deleteFavorite(favoriteList[index].id);
-                      },
+                      child: ListTile(
+                        title: Text(snapshot.data.docs[index].data()['title']),
+                        trailing: IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: HexColor('6BB8FF'),
+                          ),
+                          onPressed: () async {
+                            var result = await showDialog<int>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('本当に削除しますか？'),
+                                    content: Text('一度削除すると戻すことができません。'),
+                                    actions: [
+                                      TextButton(
+                                          child: Text('はい'),
+                                          onPressed: () async {
+                                            await deleteFavorite(
+                                                snapshot.data.docs[index].id);
+                                            Navigator.pop(context);
+                                          }
+                                      ),
+                                      TextButton(
+                                          child: Text('いいえ'),
+                                          onPressed: () =>
+                                              Navigator.pop(context)
+                                      )
+                                    ],
+                                  );
+                                }
+                            );
+                            //deleteFavorite(favoriteList[index].id);
+                          },
+                        ),
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) =>
+                                  History(paramText: snapshot.data.docs[index]
+                                      .id)));
+                        },
+                      ),
                     ),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => History(paramText: snapshot.data.docs[index].id)));
-                    },
-                  ),
-                  ),
                   );
                 }
             );
@@ -161,7 +170,6 @@ class _HistoryList extends State<HistoryList> {
 
       ),
     );
-
   }
 
 }

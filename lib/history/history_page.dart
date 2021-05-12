@@ -3,23 +3,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:resq_chatbot_app/history/history.dart';
 
-class History extends StatefulWidget{
+class History extends StatefulWidget {
   final String paramText;
+
   History({Key key, this.paramText}) : super(key: key);
 
   @override
-  _History createState() =>  _History();
+  _History createState() => _History();
 }
 
 class _History extends State<History> {
   List<histories> historyList = [];
 
-  Future<void> page() async{
-    var snapshots = await FirebaseFirestore.instance.collection('test').doc(widget.paramText).get();
+  Future<void> page() async {
+    var snapshots = await FirebaseFirestore.instance.collection('test').doc(
+        widget.paramText).get();
     var multiple = snapshots.data()['text'];
 
     // 複数行を取得
-    multiple.forEach((doc){
+    multiple.forEach((doc) {
       historyList.add(histories(
         history: doc,
       ));
@@ -28,7 +30,7 @@ class _History extends State<History> {
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     page();
   }
@@ -44,53 +46,54 @@ class _History extends State<History> {
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index){
+                    (context, index) {
                   return
-                  Padding(
-                      padding: const EdgeInsets.only(top: 20, right: 20, left: 20 ),
-                  child: Container(
-                    child: (index % 2 == 0) ?
-                    // 質問を表示
-                    Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.grey)
-                          )
-                        ),
-                    child: ListTile(
-                      leading: Text(
-                          'Q.',
-                        style: TextStyle(
-                          color: Colors.blueAccent,
-                          fontSize: 20,
-                        ),
-                      ),
-                      title: Text(historyList[index].history),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20, right: 20, left: 20),
+                      child: Container(
+                          child: (index % 2 == 0) ?
+                          // 質問を表示
+                          Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(color: Colors.grey)
+                                  )
+                              ),
+                              child: ListTile(
+                                leading: Text(
+                                  'Q.',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                title: Text(historyList[index].history),
 
-                    )
-                      )
-                    :
-                    // 回答を表示
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(color: Colors.grey)
+                              )
+                          )
+                              :
+                          // 回答を表示
+                          Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(color: Colors.grey)
+                                  )
+                              ),
+                              child:
+                              ListTile(
+                                leading: Text(
+                                  'A.',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                title: Text(historyList[index].history),
+                              )
                           )
                       ),
-                      child:
-                    ListTile(
-                      leading: Text(
-                        'A.',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                        ),
-                      ),
-                      title: Text(historyList[index].history),
-                    )
-                    )
-                      ),
-                      );
+                    );
                 },
                 childCount: historyList.length,
               ),

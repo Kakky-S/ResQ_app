@@ -10,12 +10,12 @@ class LoginModel extends ChangeNotifier {
   // バリデーション
   // todo 両方とも入力されているかを確認
   // todo 送信を押したらページ移動と入力をクリアにする
-  Future login() async{
-    if (mail.isEmpty){
+  Future login() async {
+    if (mail.isEmpty) {
       throw('メールアドレスを入力してください');
     }
 
-    if (password.isEmpty){
+    if (password.isEmpty) {
       throw('パスワードを入力してください');
     }
 
@@ -24,6 +24,5 @@ class LoginModel extends ChangeNotifier {
         password: password
     );
     final uid = result.user.uid;
-
   }
 }

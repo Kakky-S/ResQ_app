@@ -8,12 +8,12 @@ class SignUpModel extends ChangeNotifier {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future signUp() async{
-    if (mail.isEmpty){
+  Future signUp() async {
+    if (mail.isEmpty) {
       throw('メールアドレスを入力してください');
     }
 
-    if (password.isEmpty){
+    if (password.isEmpty) {
       throw('パスワードを入力してください');
     }
 
@@ -27,6 +27,6 @@ class SignUpModel extends ChangeNotifier {
           'email': email,
           'createdAt': Timestamp.now()
         }
-        );
+    );
   }
 }
