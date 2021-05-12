@@ -34,9 +34,9 @@
 HTML、CSS、JavaScript、React、Material-UI、Firebase
 
 ## 競合他社まとめ
-**[メルプ自動予測](https://www.melp.life/)**
-**[AI問診ユビー](https://intro.dr-ubie.com/)**
-**[Anybot](https://anybot.me/#top)**
+**・[メルプ自動予測](https://www.melp.life/)**
+**・[AI問診ユビー](https://intro.dr-ubie.com/)**
+**・[Anybot](https://anybot.me/#top)**
 
 メルプ自動予測が一番開発内容の被るが、内科と整形外科で棲み分けができる。他にも、色々とWebアプリはあるが、業者向けが多く一般向けがない
 
