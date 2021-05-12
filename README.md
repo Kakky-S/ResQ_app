@@ -1,5 +1,4 @@
 
-![卒制発表用01 001](https://user-images.githubusercontent.com/83205014/116044248-a9018680-a6ab-11eb-814c-926b7b55a441.jpeg)
 # 制作物
 ### 整形外科・整骨院に特化した一次診察アプリ
 
